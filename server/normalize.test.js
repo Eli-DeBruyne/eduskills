@@ -83,8 +83,49 @@ test("enrollDate: years outside 1800..currentYear+1 are not real dates", () => {
 });
 
 test("enrollDate: Date instances are formatted, invalid Dates blank out", () => {
-  assert.equal(normalizeEnrollDate(new Date(2006, 7, 15)), "2006-08-15");
+  // Date instances are read in UTC, so these assertions hold in any machine
+  // timezone. A LOCAL-midnight Date (new Date(2006, 7, 15)) is deliberately
+  // not asserted here: it is a different instant per timezone.
+  assert.equal(normalizeEnrollDate(new Date(Date.UTC(2006, 7, 15))), "2006-08-15");
   assert.equal(normalizeEnrollDate(new Date("nope")), "");
+});
+
+test("enrollDate: ISO-string Date instances keep their calendar day in any timezone", () => {
+  // new Date("2006-08-15") is UTC midnight per spec; local-time getters would
+  // report 2006-08-14 anywhere west of UTC (this machine is UTC-5, CI is UTC).
+  assert.equal(normalizeEnrollDate(new Date("2006-08-15")), "2006-08-15");
+  assert.equal(normalizeEnrollDate(new Date("2006-08-15T00:00:00Z")), "2006-08-15");
+  assert.equal(normalizeEnrollDate(new Date(Date.UTC(2006, 7, 15, 23, 59, 59))), "2006-08-15");
+});
+
+test("enrollDate: out-of-range Date instances blank out instead of emitting garbage", () => {
+  // Range extremes format as "275760-09-12" / a negative year otherwise.
+  assert.equal(normalizeEnrollDate(new Date(8640000000000000)), "");
+  assert.equal(normalizeEnrollDate(new Date(-8640000000000000)), "");
+  assert.equal(normalizeEnrollDate(new Date(Date.UTC(1799, 11, 31))), "");
+  const tooFarAhead = new Date().getFullYear() + 2;
+  assert.equal(normalizeEnrollDate(new Date(Date.UTC(tooFarAhead, 0, 1))), "");
+});
+
+test("enrollDate: ISO date-time strings drop the time part, no timezone shift", () => {
+  assert.equal(normalizeEnrollDate("2006-08-15T00:00:00Z"), "2006-08-15");
+  assert.equal(normalizeEnrollDate("2006-08-15T14:30:00.000-05:00"), "2006-08-15");
+  assert.equal(normalizeEnrollDate("2006-08-15 14:30"), "2006-08-15");
+  assert.equal(normalizeEnrollDate("2006-08-15T14:30"), "2006-08-15");
+  assert.equal(normalizeEnrollDate("2006-08-15T23:59:59+09:00"), "2006-08-15");
+  assert.equal(normalizeEnrollDate("  2006-8-5T09:00:00Z  "), "2006-08-05");
+  // The date part as written wins: a late-evening -05:00 stamp is NOT rolled
+  // forward into the next UTC day.
+  assert.equal(normalizeEnrollDate("2006-08-15T22:00:00-05:00"), "2006-08-15");
+});
+
+test("enrollDate: malformed time suffixes are not dates and pass through trimmed", () => {
+  assert.equal(normalizeEnrollDate("2006-08-15Txyz"), "2006-08-15Txyz");
+  assert.equal(normalizeEnrollDate("  2006-08-15T25:00:00  "), "2006-08-15T25:00:00");
+  assert.equal(normalizeEnrollDate("2006-08-15T14"), "2006-08-15T14");
+  assert.equal(normalizeEnrollDate("2006-08-15T14:30:00 junk"), "2006-08-15T14:30:00 junk");
+  // A valid suffix on an invalid calendar date still yields the trimmed input.
+  assert.equal(normalizeEnrollDate("2023-02-29T00:00:00Z"), "2023-02-29T00:00:00Z");
 });
 
 test("gradeLevel: kindergarten variants collapse to K", () => {

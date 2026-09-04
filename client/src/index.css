@@ -9,7 +9,8 @@
   --border-strong: #cfd4dc;
   --text: #1f2430;
   --text-muted: #6b7280;
-  --text-faint: #a8adb8;
+  /* WCAG AA: 5.36:1 on --surface, 4.95:1 on --row-hover. */
+  --text-faint: #646b78;
   --accent: #2563eb;
   --row-hover: #f2f6fd;
   --header-bg: #eef1f6;

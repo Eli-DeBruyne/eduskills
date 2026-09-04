@@ -141,6 +141,17 @@ function parseMonthNameDate(raw) {
 }
 
 /**
+ * yyyy-mm-dd (also yyyy-m-d and `/` separators) with an OPTIONAL ISO time
+ * suffix that we accept and then discard: "T00:00:00Z", " 14:30",
+ * "T14:30:00.000-05:00". Only the date fields as written are used - we never
+ * convert timezones on strings, so the calendar day can never shift.
+ * A malformed suffix ("2006-08-15Txyz") fails the match entirely and falls
+ * through to the pass-through path, preserving the original text.
+ */
+const ISO_DATE_RE =
+  /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})(?:[T ](?:[01]?\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:[Zz]|[+-](?:[01]\d|2[0-3]):?[0-5]\d)?)?$/;
+
+/**
  * Normalize any reasonable date input to yyyy-mm-dd.
  * Blank => "". Unparseable => the trimmed input, unchanged.
  *
@@ -151,14 +162,23 @@ function parseMonthNameDate(raw) {
 export function normalizeEnrollDate(value) {
   if (value instanceof Date) {
     if (Number.isNaN(value.getTime())) return "";
-    return formatYmd(value.getFullYear(), value.getMonth() + 1, value.getDate());
+    // Date instances are read in UTC, the JSON/ISO convention: `new Date(
+    // "2006-08-15")` is UTC midnight per spec, so local-time getters would
+    // report 2006-08-14 on every machine west of UTC.
+    const year = value.getUTCFullYear();
+    const month = value.getUTCMonth() + 1;
+    const day = value.getUTCDate();
+    // A Date carries no original text to fall back on, and the range extremes
+    // format as garbage ("275760-09-12", negative years), so blank them out.
+    if (!isValidYmd(year, month, day)) return "";
+    return formatYmd(year, month, day);
   }
 
   const raw = toTrimmedString(value);
   if (!raw) return "";
 
-  // Already ISO-ish: yyyy-mm-dd (also accepts yyyy-m-d and / separators).
-  const iso = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/.exec(raw);
+  // Already ISO-ish, with or without a time suffix (see ISO_DATE_RE).
+  const iso = ISO_DATE_RE.exec(raw);
   if (iso) {
     const [year, month, day] = [Number(iso[1]), Number(iso[2]), Number(iso[3])];
     if (isValidYmd(year, month, day)) return formatYmd(year, month, day);

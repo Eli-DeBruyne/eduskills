@@ -5,18 +5,24 @@ import './StudentTable.css'
 const SORT_GLYPH = { asc: '▲', desc: '▼' }
 
 /**
- * @param {{ rows: { id: number, record: object }[], emptyMessage: string }} props
+ * `rows` is the filtered view, but `sortTypes` is derived from the full
+ * dataset, so the ordering of a column never depends on what is filtered in.
+ *
+ * @param {{
+ *   rows: { id: number, record: object }[],
+ *   sortTypes: Record<string, 'numeric' | 'alpha'>,
+ *   emptyMessage: string,
+ * }} props
  */
-function StudentTable({ rows, emptyMessage }) {
+function StudentTable({ rows, sortTypes, emptyMessage }) {
   const [sort, setSort] = useState({ key: null, direction: 'asc' })
 
   const sortedRows = useMemo(() => {
     if (!sort.key) return rows
-    const records = rows.map((row) => row.record)
-    const compare = makeComparator(records, sort.key, sort.direction)
+    const compare = makeComparator(sortTypes, sort.key, sort.direction)
     // Array.prototype.sort is stable, so equal rows keep their original order.
     return [...rows].sort((a, b) => compare(a.record, b.record))
-  }, [rows, sort])
+  }, [rows, sort, sortTypes])
 
   function toggleSort(key) {
     setSort((current) =>

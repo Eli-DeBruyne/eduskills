@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import StudentTable from './StudentTable.jsx'
-import { matchesQuery } from './studentData.js'
+import { deriveSortTypes, matchesQuery } from './studentData.js'
 
 const API_URL = 'http://localhost:3001/api/students'
 
@@ -55,6 +55,10 @@ function App() {
     [rows, query],
   )
 
+  // Derived from every loaded row, never from filteredRows, so that typing in
+  // the search box cannot flip a column between numeric and alphabetic order.
+  const sortTypes = useMemo(() => deriveSortTypes(rows.map((row) => row.record)), [rows])
+
   const total = rows.length
   const shown = filteredRows.length
   const countLabel = `${shown} of ${total} student${total === 1 ? '' : 's'}`
@@ -104,7 +108,7 @@ function App() {
             </p>
           </div>
 
-          <StudentTable rows={filteredRows} emptyMessage={emptyMessage} />
+          <StudentTable rows={filteredRows} sortTypes={sortTypes} emptyMessage={emptyMessage} />
         </>
       )}
     </main>
