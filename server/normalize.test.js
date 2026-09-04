@@ -70,6 +70,18 @@ test("enrollDate: unparseable values pass through trimmed (data preserved)", () 
   assert.equal(normalizeEnrollDate("Aug 2006"), "Aug 2006");
 });
 
+test("enrollDate: years outside 1800..currentYear+1 are not real dates", () => {
+  const nextYear = new Date().getFullYear() + 1;
+  // Boundaries are valid
+  assert.equal(normalizeEnrollDate("1800-01-01"), "1800-01-01");
+  assert.equal(normalizeEnrollDate(`${nextYear}-08-15`), `${nextYear}-08-15`);
+  // Outside the bounds: pass through trimmed, never normalized
+  assert.equal(normalizeEnrollDate("1799-12-31"), "1799-12-31");
+  assert.equal(normalizeEnrollDate(`${nextYear + 1}-01-01`), `${nextYear + 1}-01-01`);
+  assert.equal(normalizeEnrollDate("Aug 15th 1023"), "Aug 15th 1023");
+  assert.equal(normalizeEnrollDate("08-15-9999"), "08-15-9999");
+});
+
 test("enrollDate: Date instances are formatted, invalid Dates blank out", () => {
   assert.equal(normalizeEnrollDate(new Date(2006, 7, 15)), "2006-08-15");
   assert.equal(normalizeEnrollDate(new Date("nope")), "");

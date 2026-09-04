@@ -77,11 +77,20 @@ function daysInMonth(year, month) {
   return lengths[month - 1];
 }
 
+// Oldest plausible school record; dates before this are treated as typos.
+const MIN_YEAR = 1800;
+
+// Allows pre-registration dates for the upcoming school year. Computed per
+// call so a long-running server stays correct across a year boundary.
+function maxYear() {
+  return new Date().getFullYear() + 1;
+}
+
 function isValidYmd(year, month, day) {
   if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
     return false;
   }
-  if (year < 1000 || year > 9999) return false;
+  if (year < MIN_YEAR || year > maxYear()) return false;
   if (month < 1 || month > 12) return false;
   return day >= 1 && day <= daysInMonth(year, month);
 }

@@ -1,0 +1,65 @@
+name: Security
+
+# Dependency auditing plus CodeQL static analysis.
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Mondays at 05:47 UTC — off-peak, off the hour to dodge scheduler congestion.
+    - cron: '47 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit (server + client)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+
+      # npm audit resolves from the lockfile, so no install step is required.
+      - name: Audit server dependencies
+        working-directory: server
+        run: npm audit --audit-level=high
+
+      # Runs even when the server audit failed, so one run reports both halves;
+      # either failure still fails the job.
+      - name: Audit client dependencies
+        if: ${{ !cancelled() }}
+        working-directory: client
+        run: npm audit --audit-level=high
+
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # No build step: JavaScript/TypeScript is analysed without autobuild.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:javascript-typescript

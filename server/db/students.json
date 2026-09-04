@@ -1,128 +1,128 @@
 [
   {
+    "studentId": "S-1001",
+    "lastName": "Nguyen",
+    "firstName": "Linh",
+    "gradeLevel": "3",
+    "enrollDate": "2024-08-19",
+    "elLevel": "2",
+    "district": "Northside ISD"
+  },
+  {
+    "studentId": 1002,
+    "lastName": "Garcia",
+    "firstName": "Miguel",
+    "gradeLevel": "05",
+    "enrollDate": "20240819",
+    "elLevel": "3.0",
+    "district": "Northside ISD"
+  },
+  {
+    "studentId": "S-1003",
+    "lastName": "Johnson",
+    "firstName": "Emily",
+    "gradeLevel": "K",
+    "enrollDate": "Aug 19th 2024",
+    "elLevel": "",
+    "district": "Westview USD"
+  },
+  {
+    "studentId": "S-1004",
+    "lastName": "Patel",
+    "firstName": "Anjali",
+    "gradeLevel": "kinder",
+    "enrollDate": "08-19-2024",
+    "elLevel": "1",
+    "district": ""
+  },
+  {
+    "studentId": "S-1005",
+    "lastName": "O'Brien",
+    "firstName": "Sean",
+    "gradeLevel": "7",
+    "enrollDate": "8/19/2024",
+    "elLevel": "4",
+    "district": "Westview USD"
+  },
+  {
+    "studentId": "S-1006",
+    "lastName": "Kim",
+    "firstName": "  Ji-ho ",
+    "gradeLevel": "Grade 2",
+    "enrollDate": "19 Aug 2024",
+    "elLevel": "2",
+    "district": "Harbor City Schools"
+  },
+  {
+    "studentId": "S-1007",
+    "lastName": "Martinez",
+    "firstName": "Sofia",
+    "gradeLevel": "4th",
+    "enrollDate": "August 3 2023",
+    "elLevel": "",
+    "district": "Harbor City Schools"
+  },
+  {
     "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
+    "lastName": "Lee",
+    "firstName": "Daniel",
+    "gradeLevel": "6",
     "enrollDate": "",
+    "elLevel": "3",
+    "district": "Northside ISD"
+  },
+  {
+    "studentId": "S-1009",
+    "lastName": "Hernandez",
+    "firstName": "Camila",
+    "gradeLevel": "",
+    "enrollDate": "2023-01-09",
+    "elLevel": "5",
+    "district": "Westview USD"
+  },
+  {
+    "studentId": "S-1010",
+    "lastName": "Smith",
+    "firstName": "",
+    "gradeLevel": "9",
+    "enrollDate": "20230110",
     "elLevel": "",
     "district": ""
   },
   {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
+    "studentId": "S-1011",
+    "lastName": "  Al-Amin ",
+    "firstName": "Yusuf",
+    "gradeLevel": "10",
+    "enrollDate": "Jan 10th 2023",
+    "elLevel": "1",
+    "district": "Northside ISD"
   },
   {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
+    "studentId": "S-1012",
+    "lastName": "Brown",
+    "firstName": "Olivia",
+    "gradeLevel": "11",
+    "enrollDate": "01-10-2023",
+    "elLevel": "2",
+    "district": "Harbor City Schools"
   },
   {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
+    "studentId": "S-1013",
+    "lastName": "Chen",
+    "firstName": "Wei",
+    "gradeLevel": "12",
+    "enrollDate": "1/10/2023",
     "elLevel": "",
-    "district": ""
+    "district": "Westview USD"
   },
   {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
-    "district": ""
-  },
-  {
-    "studentId": "",
-    "lastName": "",
-    "firstName": "",
-    "gradeLevel": "",
-    "enrollDate": "",
-    "elLevel": "",
+    "studentId": "S-1014",
+    "lastName": "Dubois",
+    "firstName": "Amelie",
+    "gradeLevel": "8",
+    "enrollDate": "10 Jan 2023",
+    "elLevel": "4",
     "district": ""
   },
   {
